@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name='Rhyme_App_Project'
