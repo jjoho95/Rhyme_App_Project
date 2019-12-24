@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -42,29 +42,39 @@
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="아이디"/>
+        android:hint="아이디" />
 
     <EditText
         android:id="@+id/PWEdit"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="패스워드"/>
+        android:ems="10"
+        android:hint="패스워드"
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/CompIDEdit"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="회사코드"/>
+        android:hint="회사코드" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/LoginButton"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="#03A9F4"
         android:text="로그인"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:onClick="onLoginBtnClicked"/>
+
+    <TextView
+        android:id="@+id/tv_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
 
 </LinearLayout>
