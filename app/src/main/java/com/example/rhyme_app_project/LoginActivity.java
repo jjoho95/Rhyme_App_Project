@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,12 +22,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.Key;
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText idedit; //ID editbox
     private EditText pwedit; //비밀번호 editbox
     private EditText compidedit; //회사정보 editbox
-    private TextView tv_outPut;
     private String url;
     private User user;
     static  String strJson = "";
@@ -89,12 +91,20 @@ public class LoginActivity extends AppCompatActivity {
                     //Toast.makeText(LoginAct, "Received!", Toast.LENGTH_LONG).show();
                     try {
                         JSONObject json = new JSONObject(strJson);//strJson을 다시 JSON객체로 변환
-
                         //로그인성공시
                         if(json.getString("Result").equals("valid"))
                         {
-                            Toast.makeText(LoginAct, "로그인 성공!", Toast.LENGTH_LONG).show();
-                            
+                            //Toast.makeText(LoginAct, "로그인 성공!", Toast.LENGTH_SHORT).show();
+                            ArrayList<functionlist> funclist=new ArrayList<functionlist>();
+                            JSONArray authorarray = json.getJSONArray("Authorization");
+                            for(int i = 0; i<authorarray.length();i++) {
+                                functionlist f= new functionlist();
+                                String KeyStr = authorarray.getJSONObject(i).names().getString(0);
+                                Log.d("iterate", KeyStr+authorarray.getJSONObject(i).getString(KeyStr));
+                                f.setFuncName(KeyStr);
+                                f.setValue(authorarray.getJSONObject(i).getString(KeyStr));
+                                funclist.add(f);
+                            }
                             Intent intent1 = new Intent(LoginAct, MainActivity.class);
                             startActivity(intent1);
                         }
@@ -119,7 +129,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        tv_outPut.setText(e.toString());
                     }
                 }
             });
