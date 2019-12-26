@@ -26,7 +26,7 @@ public class User {
         return CompID;
     }
 
-    public void setCompID(String twitter) {
+    public void setCompID(String CompID) {
         this.CompID = CompID;
     }
 

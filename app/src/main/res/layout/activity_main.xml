@@ -8,13 +8,13 @@
     android:orientation="vertical">
 
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/logo"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"/>
+<!--    <ImageView-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:src="@drawable/logo"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="100dp"/>-->
 
     <TextView
         android:id="@+id/textView"
@@ -74,6 +74,13 @@
         android:layout_gravity="center"
         android:backgroundTint="#03A9F4"
         android:text="로그인"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:onClick="onLoginBtnClicked"/>
+
+    <TextView
+        android:id="@+id/tv_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
 </LinearLayout>

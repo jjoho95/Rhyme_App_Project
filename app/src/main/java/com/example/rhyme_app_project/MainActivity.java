@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //url 설정
-        url = "http://doho.truds.kr";
+        url = "http://doho.truds.kr/index.php?login=";
 
         idedit = (EditText) findViewById(R.id.IDEdit);
         pwedit = (EditText) findViewById(R.id.PWEdit);
@@ -57,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
         HttpAsyncTask httpTask = new HttpAsyncTask(MainActivity.this);
         httpTask.execute(url, id_str,pw_str,compid_str);
 
-        // AsyncTask를 통해 HttpURLConnection 수행.
-//        NetworkTask networkTask = new NetworkTask(url, null);
-//        networkTask.execute();
     }
 
 
@@ -79,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
             user.setUserID(urls[1]);
             user.setPW(urls[2]);
             user.setCompID(urls[3]);//값 지정
-            Log.d("urls[2]",urls[2]);
-            Log.d("urls[3]",urls[3]);
             return POST(urls[0], user);//POST 함수를 실행하면서 받아온값 반환
         }
 
@@ -89,16 +84,21 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {//왔을때의 구문
             super.onPostExecute(result);
             strJson = result;//결과값 strJson으로
+
             mainAct.runOnUiThread(new Runnable() {//병렬로처리
                 @Override
                 public void run() {
                     Toast.makeText(mainAct, "Received!", Toast.LENGTH_LONG).show();
-                    try {
-                        JSONArray json = new JSONArray(strJson);//받아온 JSON array에
-                        tv_outPut.setText(json.toString(1));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Log.d("strJson",strJson);
+                    tv_outPut.setText(strJson.toString());
+//                    try {
+//                        JSONArray json = new JSONArray(strJson);//받아온 JSON array에
+//                        Log.d("strJson",json.toString());
+//                        tv_outPut.setText(strJson.toString());
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                        tv_outPut.setText(e.toString());
+//                    }
                 }
             });
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public static String POST(String url, User user){
+    public  String POST(String url, User user){
         InputStream is = null;
         String result = "";
         try {
@@ -120,14 +120,15 @@ public class MainActivity extends AppCompatActivity {
             jsonObject.put("UserID", user.getUserID());
             jsonObject.put("PW", user.getPW());
             jsonObject.put("CompID", user.getCompID());
-            Log.d("CompID",user.getCompID());
+
 
             // convert JSONObject to JSON to String
             json = jsonObject.toString();
 
             // Set some headers to inform server about the type of the content
-            httpCon.setRequestProperty("Accept", "application/json");
-            httpCon.setRequestProperty("Content-type", "application/json");
+            httpCon.setRequestMethod("POST");
+            httpCon.setRequestProperty("Accept-Charset", "UTF-8");
+            httpCon.setRequestProperty("Content-type", "application/x-www-form-urlencoded;cahrset=UTF-8");
 
             // OutputStream으로 POST 데이터를 넘겨주겠다는 옵션.
             httpCon.setDoOutput(true);
@@ -135,14 +136,20 @@ public class MainActivity extends AppCompatActivity {
             httpCon.setDoInput(true);
 
             OutputStream os = httpCon.getOutputStream();
-            os.write(json.getBytes("utf-8"));
+            Log.d("Realjson",json);
+            //write함
+            os.write(json.getBytes("UTF-8"));
             os.flush();
+            os.close();
+
             // receive response as inputStream
             try {
                 is = httpCon.getInputStream();
                 // convert inputstream to string
-                if(is != null)
+                if(is != null) {
                     result = convertInputStreamToString(is);
+                    Log.d("result1", result);
+                }
                 else
                     result = "Did not work!";
             }
@@ -159,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
         catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
         }
-
         return result;
     }
 
@@ -171,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             result += line;
 
         inputStream.close();
+
         return result;
 
     }
