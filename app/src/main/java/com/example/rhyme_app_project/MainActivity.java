@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         if(json.getString("Result").equals("valid"))
                         {
                             Toast.makeText(mainAct, "로그인 성공!", Toast.LENGTH_LONG).show();
+                            
                             Intent intent1 = new Intent(mainAct, AnotherActivity.class);
                             startActivity(intent1);
                         }
