@@ -77,10 +77,5 @@
         android:textColor="#FFFFFF"
         android:onClick="onLoginBtnClicked"/>
 
-    <TextView
-        android:id="@+id/tv_out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 
 </LinearLayout>
