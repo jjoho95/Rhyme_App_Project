@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         idedit = (EditText) findViewById(R.id.IDEdit);
         pwedit = (EditText) findViewById(R.id.PWEdit);
         compidedit = (EditText) findViewById(R.id.CompIDEdit);
-        tv_outPut = (TextView) findViewById(R.id.tv_out);
+
 
     }
 
