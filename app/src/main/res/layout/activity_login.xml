@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".LoginActivity"
     android:orientation="vertical">
 
 
@@ -54,7 +54,8 @@
         android:layout_gravity="center"
         android:backgroundTint="#03A9F4"
         android:text="로그인"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:onClick="onLoginBtnClicked"/>
 
     <TextView
         android:id="@+id/textView"
