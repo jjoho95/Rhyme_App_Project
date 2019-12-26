@@ -3,6 +3,7 @@ package com.example.rhyme_app_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         String id_str = idedit.getText().toString();
         String pw_str = pwedit.getText().toString();
         String compid_str = compidedit.getText().toString();
-        Log.d("TAG","id : "+id_str+"\npw : "+pw_str+"\nCompid : "+compid_str);
         // call AsynTask to perform network operation on separate thread
         HttpAsyncTask httpTask = new HttpAsyncTask(MainActivity.this);
         httpTask.execute(url, id_str,pw_str,compid_str);
@@ -88,17 +88,40 @@ public class MainActivity extends AppCompatActivity {
             mainAct.runOnUiThread(new Runnable() {//병렬로처리
                 @Override
                 public void run() {
-                    Toast.makeText(mainAct, "Received!", Toast.LENGTH_LONG).show();
-                    Log.d("strJson",strJson);
-                    tv_outPut.setText(strJson.toString());
-//                    try {
-//                        JSONArray json = new JSONArray(strJson);//받아온 JSON array에
-//                        Log.d("strJson",json.toString());
-//                        tv_outPut.setText(strJson.toString());
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                        tv_outPut.setText(e.toString());
-//                    }
+                    //Toast.makeText(mainAct, "Received!", Toast.LENGTH_LONG).show();
+                    try {
+                        JSONObject json = new JSONObject(strJson);//strJson을 다시 JSON객체로 변환
+
+                        //로그인성공시
+                        if(json.getString("Result").equals("valid"))
+                        {
+                            Toast.makeText(mainAct, "로그인 성공!", Toast.LENGTH_LONG).show();
+                            Intent intent1 = new Intent(mainAct, AnotherActivity.class);
+                            startActivity(intent1);
+                        }
+                        //로그인실패시
+                        else{
+                            String casestr = json.getString("InvalidCase");
+                            String errorstr = "";
+//                            Log.d("casestr",casestr.charAt(0));
+                            if(casestr.charAt(0)=='1')
+                            {
+                                errorstr += "아이디가 없습니다";
+                            }
+                            if(casestr.charAt(1)=='1')
+                            {
+                                errorstr += "\n비밀번호가 틀렸습니다";
+                            }
+                            if(casestr.charAt(2)=='1')
+                            {
+                                errorstr += "\n회사정보가 틀렸습니다.";
+                            }
+                            Toast.makeText(mainAct, errorstr, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        tv_outPut.setText(e.toString());
+                    }
                 }
             });
 
@@ -136,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
             httpCon.setDoInput(true);
 
             OutputStream os = httpCon.getOutputStream();
-            Log.d("Realjson",json);
             //write함
             os.write(json.getBytes("UTF-8"));
             os.flush();
@@ -148,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 // convert inputstream to string
                 if(is != null) {
                     result = convertInputStreamToString(is);
-                    Log.d("result1", result);
+
                 }
                 else
                     result = "Did not work!";
