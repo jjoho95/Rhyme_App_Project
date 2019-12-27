@@ -159,6 +159,9 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             cursor.close();
 
+                            sql = "DELETE FROM menuauth;";
+                            db.execSQL(sql);
+
                         dbHelper.close();
 
                             Intent intent1 = new Intent(LoginAct, MainActivity.class);
