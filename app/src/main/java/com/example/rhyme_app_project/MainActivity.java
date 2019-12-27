@@ -16,6 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -27,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
     NavigationView mNavigationView;
     ArrayList<String> falsemenus;
     private static final String TAG = "LoginActivity";
+
+    LoginActivity.DBHelper dbHelper;
+
+    final static String dbName = "menuauth.db";
+    final static int dbVersion = 1;
 
 
     @Override
@@ -43,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         mActionBarDrawerToggle.syncState();
         falsemenus = new ArrayList<String>();
 
+        SQLiteDatabase db;
+        String sql;
+
         setSupportActionBar((Toolbar)findViewById(R.id.my_toolbar));
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,6 +66,33 @@ public class MainActivity extends AppCompatActivity {
         //권한에 따른 메뉴 제거
         //loadDB();
         //falsemenus = SELECT * FROM Authorization where value = false;//false인 항목들 다받아와서 삭제
+
+        db = dbHelper.getReadableDatabase();
+        sql = "select menu from menuauth where author= 'false'";
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                Log.d("Yeongwon2",String.format("기능 = %s", cursor.getString(0)));
+                String falsemenu = cursor.getString(0);
+                for(int i = 0 ; i< menu.size();i++)
+                {
+                        Log.d("menusize", menu.getItem(i).getTitle().toString());
+            if(menu.getItem(i).getTitle().toString().equals(falsemenu))
+            {
+                menu.removeItem(i);
+            }
+                    }
+                }
+            }
+        else {
+            //result.append("\n조회결과가 없습니다.");
+        }
+        cursor.close();
+
+
+
+        dbHelper.close();
+
         Menu menu = mNavigationView.getMenu();
 
         for(int i = 0 ; i< menu.size();i++)
