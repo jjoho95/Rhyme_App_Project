@@ -258,14 +258,14 @@ public class LoginActivity extends AppCompatActivity {
         //DB 처음 만들때 호출. - 테이블 생성 등의 초기 처리.
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE t3 (name TEXT, memo TEXT, priority INTEGER, date TEXT, finish INTEGER);");
+            db.execSQL("CREATE TABLE menuauth(menu TEXT, author TEXT);");
             //result.append("\nt3 테이블 생성 완료.");
         }
 
         //DB 업그레이드 필요 시 호출. (version값에 따라 반응)
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS t3");
+            db.execSQL("DROP TABLE IF EXISTS menuauth");
             onCreate(db);
         }
 
