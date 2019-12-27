@@ -142,6 +142,24 @@ public class LoginActivity extends AppCompatActivity {
                                 db.execSQL(sql);
                                 //db에 넣기
                             }
+                            dbHelper.close();
+
+                            db = dbHelper.getReadableDatabase();
+                            sql = "SELECT * FROM menuauth;";
+                            Cursor cursor = db.rawQuery(sql, null);
+                            if (cursor.getCount() > 0) {
+                                while (cursor.moveToNext()) {
+                                    Log.d("Yeongwon",String.format("기능 = %s, 권한 = %s", cursor.getString(0), cursor.getString(1)));
+
+                                    //result.append(String.format("\n이름 = %s, 메모 = %s, 우선순위 = %s, 날짜 = %s, finish=%s",
+                                      //      cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)));
+                                }
+                            } else {
+                                //result.append("\n조회결과가 없습니다.");
+                            }
+                            cursor.close();
+
+                        dbHelper.close();
 
                             Intent intent1 = new Intent(LoginAct, MainActivity.class);
                             startActivity(intent1);
