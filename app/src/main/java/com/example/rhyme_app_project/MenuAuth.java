@@ -1,6 +1,6 @@
 package com.example.rhyme_app_project;
 
-public class functionlist {
+public class MenuAuth {
     private String funcName;
     private String authorValue;
 

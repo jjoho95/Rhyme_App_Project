@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--main content는 여기-->
-
-    <WebView
-        android:id="@+id/webView"
+    <TextView
+        android:id="@+id/textView5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="300dp"
+        android:text="FragmentC" />
 </LinearLayout>

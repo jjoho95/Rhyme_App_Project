@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -22,7 +21,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.Key;
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
@@ -91,28 +89,33 @@ public class LoginActivity extends AppCompatActivity {
                     //Toast.makeText(LoginAct, "Received!", Toast.LENGTH_LONG).show();
                     try {
                         JSONObject json = new JSONObject(strJson);//strJson을 다시 JSON객체로 변환
+
                         //로그인성공시
                         if(json.getString("Result").equals("valid"))
                         {
-                            //Toast.makeText(LoginAct, "로그인 성공!", Toast.LENGTH_SHORT).show();
-                            ArrayList<functionlist> funclist=new ArrayList<functionlist>();
+                            Toast.makeText(LoginAct, "로그인 성공!", Toast.LENGTH_SHORT).show();
+
+                            //funclist는 MenuAuth 객체(각 메뉴들의 이름 변수와 권한 값을 갖고있음)를 담는 arraylist임
+
+                            ArrayList<MenuAuth> funclist=new ArrayList<MenuAuth>();
                             JSONArray authorarray = json.getJSONArray("Authorization");
                             for(int i = 0; i<authorarray.length();i++) {
-                                functionlist f= new functionlist();
+                                MenuAuth f= new MenuAuth();
                                 String KeyStr = authorarray.getJSONObject(i).names().getString(0);
                                 Log.d("iterate", KeyStr+authorarray.getJSONObject(i).getString(KeyStr));
                                 f.setFuncName(KeyStr);
                                 f.setValue(authorarray.getJSONObject(i).getString(KeyStr));
                                 funclist.add(f);
                             }
+                            
                             Intent intent1 = new Intent(LoginAct, MainActivity.class);
                             startActivity(intent1);
                         }
+
                         //로그인실패시
                         else{
                             String casestr = json.getString("InvalidCase");
                             String errorstr = "";
-//                            Log.d("casestr",casestr.charAt(0));
                             if(casestr.charAt(0)=='1')
                             {
                                 errorstr += "아이디가 없습니다";

@@ -31,21 +31,28 @@
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="아이디"/>
+        android:hint="아이디"
+        android:text="admin"/>
 
     <EditText
         android:id="@+id/PWEdit"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="패스워드"/>
+        android:hint="패스워드"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text="111"/>
 
     <EditText
         android:id="@+id/CompIDEdit"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="회사코드"/>
+        android:hint="회사코드"
+        android:text="rhyme"/>
+
+
 
     <Button
         android:id="@+id/button5"
