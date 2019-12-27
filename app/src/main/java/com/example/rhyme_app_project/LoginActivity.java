@@ -54,8 +54,14 @@ public class LoginActivity extends AppCompatActivity {
         pwedit = (EditText) findViewById(R.id.PWEdit);
         compidedit = (EditText) findViewById(R.id.CompIDEdit);
 
+        SQLiteDatabase db;
+        String sql;
+
         //database
         dbHelper = new DBHelper(this, dbName, null, dbVersion);
+
+        db = dbHelper.getWritableDatabase();
+
         sql = "DELETE FROM menuauth;";
         db.execSQL(sql);
 
