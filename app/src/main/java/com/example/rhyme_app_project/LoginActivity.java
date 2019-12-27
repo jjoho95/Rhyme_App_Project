@@ -2,6 +2,7 @@ package com.example.rhyme_app_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,13 @@ import java.net.URL;
 import java.security.Key;
 import java.util.ArrayList;
 
+//database
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
+
+
 public class LoginActivity extends AppCompatActivity {
     private EditText idedit; //ID editbox
     private EditText pwedit; //비밀번호 editbox
@@ -32,6 +40,10 @@ public class LoginActivity extends AppCompatActivity {
     private String url;
     private User user;
     static  String strJson = "";
+    DBHelper dbHelper;
+
+    final static String dbName = "menuauth.db";
+    final static int dbVersion = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +55,9 @@ public class LoginActivity extends AppCompatActivity {
         idedit = (EditText) findViewById(R.id.IDEdit);
         pwedit = (EditText) findViewById(R.id.PWEdit);
         compidedit = (EditText) findViewById(R.id.CompIDEdit);
+
+        //database
+        dbHelper = new DBHelper(this, dbName, null, dbVersion);
 
 
     }
@@ -83,7 +98,12 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {//왔을때의 구문
             super.onPostExecute(result);
+
+
+
             strJson = result;//결과값 strJson으로
+
+
 
             LoginAct.runOnUiThread(new Runnable() {//병렬로처리
                 @Override
@@ -105,6 +125,22 @@ public class LoginActivity extends AppCompatActivity {
                                 f.setValue(authorarray.getJSONObject(i).getString(KeyStr));
                                 funclist.add(f);
                             }
+
+                            SQLiteDatabase db;
+                            String sql;
+
+                            for(int i = 0; i< funclist.size();i++)
+                            {
+
+                                String menu = funclist.get(i).getFuncName();
+                                String author = funclist.get(i).getValue();
+                                db = dbHelper.getWritableDatabase();
+                                sql = String.format("INSERT INTO menuauth values ( '" + menu + "', '" + author + "')");
+
+                                db.execSQL(sql);
+                                //db에 넣기
+                            }
+
                             Intent intent1 = new Intent(LoginAct, MainActivity.class);
                             startActivity(intent1);
                         }
@@ -212,4 +248,26 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    static class DBHelper extends SQLiteOpenHelper {
+
+        //생성자 - database 파일을 생성한다.
+        public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+            super(context, name, factory, version);
+        }
+
+        //DB 처음 만들때 호출. - 테이블 생성 등의 초기 처리.
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL("CREATE TABLE t3 (name TEXT, memo TEXT, priority INTEGER, date TEXT, finish INTEGER);");
+            //result.append("\nt3 테이블 생성 완료.");
+        }
+
+        //DB 업그레이드 필요 시 호출. (version값에 따라 반응)
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            db.execSQL("DROP TABLE IF EXISTS t3");
+            onCreate(db);
+        }
+
+    }
 }
