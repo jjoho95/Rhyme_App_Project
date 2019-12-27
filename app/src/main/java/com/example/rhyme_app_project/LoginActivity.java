@@ -149,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                             Cursor cursor = db.rawQuery(sql, null);
                             if (cursor.getCount() > 0) {
                                 while (cursor.moveToNext()) {
-                                    Log.d("Yeongwon",String.format("기능 = %s, 권한 = %s", cursor.getString(0), cursor.getString(1)));
+                                    Log.d("Yeongwon2",String.format("기능 = %s, 권한 = %s", cursor.getString(0), cursor.getString(1)));
 
                                     //result.append(String.format("\n이름 = %s, 메모 = %s, 우선순위 = %s, 날짜 = %s, finish=%s",
                                       //      cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)));
