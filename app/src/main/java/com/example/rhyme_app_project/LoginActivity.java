@@ -172,6 +172,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             Intent intent1 = new Intent(LoginAct, MainActivity.class);
                             startActivity(intent1);
+                            finish();
                         }
 
                         //로그인실패시

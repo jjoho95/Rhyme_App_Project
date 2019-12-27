@@ -2,6 +2,7 @@ package com.example.rhyme_app_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -49,10 +50,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_category);
 
         //Default fragment to be display
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_content, new Fragment_A()).commit(); //2nd parameter가 포함될 1st parameter viewGroup
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_content, new Fragment_Main()).commit(); //2nd parameter가 포함될 1st parameter viewGroup
 
         //권한에 따른 메뉴 제거
-        //loadDB();
+        //loadDB
         //falsemenus = SELECT * FROM Authorization where value = false;//false인 항목들 다받아와서 삭제
         Menu menu = mNavigationView.getMenu();
 
