@@ -56,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
 
         //database
         dbHelper = new DBHelper(this, dbName, null, dbVersion);
-
+        sql = "DELETE FROM menuauth;";
+        db.execSQL(sql);
 
     }
 
@@ -159,8 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             cursor.close();
 
-                            sql = "DELETE FROM menuauth;";
-                            db.execSQL(sql);
+
 
                         dbHelper.close();
 
