@@ -168,10 +168,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-                        dbHelper.close();
+                        //dbHelper.close();
 
                             Intent intent1 = new Intent(LoginAct, MainActivity.class);
                             startActivity(intent1);
+
                             finish();
                         }
 

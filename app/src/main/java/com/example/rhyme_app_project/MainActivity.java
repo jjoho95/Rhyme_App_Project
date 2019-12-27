@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener((mActionBarDrawerToggle));
         mActionBarDrawerToggle.syncState();
-        falsemenus = new ArrayList<String>();
 
         SQLiteDatabase db;
         String sql;
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         //권한에 따른 메뉴 제거
         //loadDB
         //falsemenus = SELECT * FROM Authorization where value = false;//false인 항목들 다받아와서 삭제
-
+        Menu menu = mNavigationView.getMenu();
         db = dbHelper.getReadableDatabase();
         sql = "select menu from menuauth where author= 'false'";
         Cursor cursor = db.rawQuery(sql, null);
@@ -94,18 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper.close();
 
-        Menu menu = mNavigationView.getMenu();
 
-        for(int i = 0 ; i< menu.size();i++)
-        {
-            for(int j =0 ; j<falsemenus.size();j++) {
-                Log.d("menusize", menu.getItem(i).getTitle().toString());
-//            if(menu.getItem(i).getTitle().toString().equals(falsemenus(j)))
-//            {
-//                menu.removeItem(i);
-//            }
-             }
-        }
+
 
         //listener for navigation view
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
